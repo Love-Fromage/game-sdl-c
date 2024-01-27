@@ -2,10 +2,10 @@
 #include <SDL2/SDL.h>
 #include "./constants.h"
 
-SDL_Window* window = NULL;
+SDL_Window *window = NULL;
 SDL_Renderer* renderer = NULL;
 
-int initialize_window(void){
+int initialize_window(){
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "Error initializing SDL.\n");
         return FALSE;
