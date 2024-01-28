@@ -78,12 +78,35 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Draw a rectangle
-    SDL_Rect ball_rect = {
+    SDL_Rect ball_rect1 = {
         ball.x,
         ball.y,
         ball.width,
         ball.height
     };
+    SDL_Rect ball_rect2 = {
+        ball_rect1.x + ball.width*2,
+        ball.y,
+        ball.width,
+        ball.height
+    };
+    SDL_Rect ball_rect3 = {
+        ball_rect2.x + ball.width*2,
+        ball.y,
+        ball.width,
+        ball.height
+    };
+    SDL_Rect ball_rect4 = {
+        ball_rect3.x + ball.width*2,
+        ball.y,
+        ball.width,
+        ball.height
+    };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &ball_rect1);
+    SDL_RenderFillRect(renderer, &ball_rect2);
+    SDL_RenderFillRect(renderer, &ball_rect3);
+    SDL_RenderFillRect(renderer, &ball_rect4);
 
     SDL_RenderPresent(renderer);
 }
