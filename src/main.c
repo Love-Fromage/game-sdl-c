@@ -137,16 +137,36 @@ void update(){
     // ball.y += 30 * delta_time;
 
     if(ball.up){
-        ball.y -= 100 * delta_time;
+        if(ball.y - ball.height < 0){
+            ball.y = ball.height;
+            ball.up=0;
+        }else{
+            ball.y -= 100 * delta_time;
+        }
     }
     if(ball.down){
-        ball.y += 100 * delta_time;
+        if(ball.y + ball.height > WINDOW_HEIGHT){
+            ball.y = WINDOW_HEIGHT - ball.height;
+            ball.down=0;
+        }else{
+            ball.y += 100 * delta_time;
+        }
     }
     if(ball.left){
-        ball.x -= 100 * delta_time;
+        if(ball.x - ball.width < 0){
+            ball.x = ball.width;
+            ball.left =0;
+        }else{
+            ball.x -= 100 * delta_time;
+        }
     }
     if(ball.right){
-        ball.x += 100 * delta_time;
+        if(ball.x + ball.width > WINDOW_WIDTH){
+            ball.x = WINDOW_WIDTH - ball.width;
+            ball.right=0;
+        }else{
+            ball.x += 100 * delta_time;
+        }
     }
 }
 
