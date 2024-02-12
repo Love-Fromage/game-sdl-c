@@ -12,6 +12,10 @@ struct ball {
     float y;
     float width;
     float height; 
+    int up;
+    int down;
+    int left;
+    int right;
 } ball;
 
 int initialize_window(){
@@ -41,6 +45,39 @@ int initialize_window(){
     }
     return TRUE;
 }
+void doKeyDown(SDL_KeyboardEvent *event){
+    if(event->repeat == 0){
+        if(event->keysym.scancode == SDL_SCANCODE_UP){
+            ball.up = 1;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_DOWN){
+            ball.down = 1;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_LEFT){
+            ball.left = 1;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_RIGHT){
+            ball.right = 1;
+        }
+    }
+}
+
+void doKeyUp(SDL_KeyboardEvent *event){
+    if(event->repeat == 0){
+        if(event->keysym.scancode == SDL_SCANCODE_UP){
+            ball.up = 0;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_DOWN){
+            ball.down = 0;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_LEFT){
+            ball.left = 0;
+        }
+        if(event->keysym.scancode == SDL_SCANCODE_RIGHT){
+            ball.right = 0;
+        }
+    }
+}
 
 void process_input(){
     SDL_Event event;
@@ -54,7 +91,14 @@ void process_input(){
     case SDL_KEYDOWN:
         if(event.key.keysym.sym == SDLK_ESCAPE){
             game_is_running = FALSE;
+        }else {
+            doKeyDown(&event.key);
+            break;
         }
+        break;
+
+    case SDL_KEYUP:
+        doKeyUp(&event.key);
         break;
     
     default:
@@ -71,12 +115,39 @@ void setup(){
 }
 
 void update(){
-    //TODO: waste  some time /  sleep  until we  reach the frame target time
+    // Waste some time /  sleep  until we  reach the frame target time
+    // while(!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME));
+    // Calculate how much we have to wait until we reach the target frame time
+    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() -last_frame_time);
+
+    // Only delay if we are too fast too update this frame
+    if(time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME){
+        SDL_Delay(time_to_wait);
+    }
 
 
+    // Get a delta time factor converted to seconds to be used to update my objects
+    float delta_time = (SDL_GetTicks()-last_frame_time)/1000.0f;
+
+    // Store the milliseconds of the current frame to be used in the next one
     last_frame_time = SDL_GetTicks();
-    ball.x +=1;
-    ball.y +=1;
+
+    // Move ball as a function of delta time
+    // ball.x += 20 * delta_time;
+    // ball.y += 30 * delta_time;
+
+    if(ball.up){
+        ball.y -= 100 * delta_time;
+    }
+    if(ball.down){
+        ball.y += 100 * delta_time;
+    }
+    if(ball.left){
+        ball.x -= 100 * delta_time;
+    }
+    if(ball.right){
+        ball.x += 100 * delta_time;
+    }
 }
 
 void render(){
