@@ -25,12 +25,12 @@ int initialize_window(){
     }
 
      window = SDL_CreateWindow(
-        NULL,
+        "TEST",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
-        SDL_WINDOW_BORDERLESS
+        SDL_WINDOW_MINIMIZED
      );
 
      if(!window){
@@ -138,7 +138,7 @@ void update(){
 
     if(ball.up){
         if(ball.y - ball.height < 0){
-            ball.y = ball.height;
+            ball.y = ball.y;
             ball.up=0;
         }else{
             ball.y -= 100 * delta_time;
