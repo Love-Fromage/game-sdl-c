@@ -182,16 +182,16 @@ void render(){
         0,
         0,
         WINDOW_WIDTH,
-        10,
+        20,
     };
     SDL_RenderFillRect(renderer, &top_wall);
 
     // Bootom wall
     SDL_Rect bottom_wall = {
         0,
-        WINDOW_HEIGHT-10,
+        WINDOW_HEIGHT-20,
         WINDOW_WIDTH,
-        10
+        20
     };
     SDL_RenderFillRect(renderer, &bottom_wall);
 
@@ -199,7 +199,7 @@ void render(){
     SDL_Rect left_wall = {
         0,
         0,
-        10,
+        20,
         WINDOW_HEIGHT
     };
     SDL_RenderFillRect(renderer, &left_wall);
@@ -207,9 +207,9 @@ void render(){
 
     // Right wall 
     SDL_Rect right_wall = {
-        WINDOW_WIDTH - 10,
+        WINDOW_WIDTH - 20,
         0,
-        10,
+        20,
         WINDOW_HEIGHT
     };
     SDL_RenderFillRect(renderer, &right_wall);
