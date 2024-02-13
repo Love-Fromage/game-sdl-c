@@ -174,6 +174,47 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 0,0,0,250);
     SDL_RenderClear(renderer);
 
+    // Draw blue walls around the edge of the window
+    SDL_SetRenderDrawColor(renderer, 0,0,255,255); // Blue color
+
+    // Top wall
+    SDL_Rect top_wall = {
+        0,
+        0,
+        WINDOW_WIDTH,
+        10,
+    };
+    SDL_RenderFillRect(renderer, &top_wall);
+
+    // Bootom wall
+    SDL_Rect bottom_wall = {
+        0,
+        WINDOW_HEIGHT-10,
+        WINDOW_WIDTH,
+        10
+    };
+    SDL_RenderFillRect(renderer, &bottom_wall);
+
+    // Left wall
+    SDL_Rect left_wall = {
+        0,
+        0,
+        10,
+        WINDOW_HEIGHT
+    };
+    SDL_RenderFillRect(renderer, &left_wall);
+
+
+    // Right wall 
+    SDL_Rect right_wall = {
+        WINDOW_WIDTH - 10,
+        0,
+        10,
+        WINDOW_HEIGHT
+    };
+    SDL_RenderFillRect(renderer, &right_wall);
+
+
     // Draw a rectangle
     SDL_Rect ball_rect = {
         ball.x,
@@ -181,29 +222,8 @@ void render(){
         ball.width,
         ball.height
     };
-    // SDL_Rect ball_rect2 = {
-    //     ball_rect1.x + ball.width*2,
-    //     ball.y,
-    //     ball.width,
-    //     ball.height
-    // };
-    // SDL_Rect ball_rect3 = {
-    //     ball_rect2.x + ball.width*2,
-    //     ball.y,
-    //     ball.width,
-    //     ball.height
-    // };
-    // SDL_Rect ball_rect4 = {
-    //     ball_rect3.x + ball.width*2,
-    //     ball.y,
-    //     ball.width,
-    //     ball.height
-    // };
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &ball_rect);
-    // SDL_RenderFillRect(renderer, &ball_rect2);
-    // SDL_RenderFillRect(renderer, &ball_rect3);
-    // SDL_RenderFillRect(renderer, &ball_rect4);
 
     SDL_RenderPresent(renderer);
 }
