@@ -94,7 +94,9 @@ void moveBall(float *delta){
         ball.bounce = FALSE;
 
     }
-    for(int i = 0; i < 11; i++){
+    for(int i = 0; i < 10; i++){
+        if(bricks[i].status){
+
     if(ball.x + ball.width >= bricks[i].x &&
        ball.x - ball.width <= bricks[i].x + bricks[i].width &&
        ball.y + ball.height >= bricks[i].y &&
@@ -104,6 +106,7 @@ void moveBall(float *delta){
         bricks[i].status = FALSE;
 
     }
+        }
 
     }
     
@@ -201,7 +204,7 @@ void setup(){
     palette.height = 15;
 
     for(int i = 0; i < 10; i++){
-        bricks[i].x = i * (20 + 40); //bricks spaced 20 units apart
+        bricks[i].x = i * (20 + 40)+100; //bricks spaced 20 units apart
         bricks[i].y = 100; // All bricks at y = 100
         bricks[i].width = 40; // brick with of 40
         bricks[i].height = 20;
@@ -326,7 +329,7 @@ void render(){
     for(int i = 0; i < 10; i++){
         if(bricks[i].status){
             SDL_Rect brick_rect = {
-                bricks[i].x+100,
+                bricks[i].x,
                 bricks[i].y,
                 bricks[i].width,
                 bricks[i].height
