@@ -97,18 +97,22 @@ void moveBall(float *delta){
     for(int i = 0; i < 10; i++){
         if(bricks[i].status){
 
-    if(ball.x + ball.width >= bricks[i].x &&
-       ball.x - ball.width <= bricks[i].x + bricks[i].width &&
-       ball.y + ball.height >= bricks[i].y &&
-       ball.y - ball.height <= bricks[i].y + bricks[i].height){
+            if(ball.x + ball.width >= bricks[i].x &&
+                ball.x - ball.width <= bricks[i].x + bricks[i].width &&
+                ball.y + ball.height >= bricks[i].y &&
+                ball.y - ball.height <= bricks[i].y + bricks[i].height){
 
-        ball.bounce = TRUE;
-        bricks[i].status = FALSE;
+                    ball.bounce = TRUE;
+                    bricks[i].health = 0;
 
-    }
+            }
+        }
+        if(bricks[i].health == 0){
+            bricks[i].status = FALSE;
         }
 
     }
+    
     
     if(ball.up && !ball.bounce){
         ball.y -= 100 * (*delta);
@@ -205,7 +209,7 @@ void setup(){
 
     for(int i = 0; i < 10; i++){
         bricks[i].x = i * (20 + 40)+100; //bricks spaced 20 units apart
-        bricks[i].y = 100; // All bricks at y = 100
+        bricks[i].y = 100;
         bricks[i].width = 40; // brick with of 40
         bricks[i].height = 20;
         bricks[i].health = 1; // all bricks have 1 health
