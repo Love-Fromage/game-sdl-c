@@ -214,29 +214,6 @@ void update(){
     // Store the milliseconds of the current frame to be used in the next one
     last_frame_time = SDL_GetTicks();
 
-    // Move ball as a function of delta time
-    // ball.x += 20 * delta_time;
-    // ball.y += 30 * delta_time;
-
-    // if(ball.up){
-    //     if(ball.y - ball.height < 0){
-    //         ball.y = ball.y;
-    //         ball.up=0;
-    //     }else{
-    //         ball.y -= 100 * delta_time;
-    //     }
-    // }
-    // if(ball.down){
-    //     if(ball.y + ball.height > WINDOW_HEIGHT){
-    //         ball.y = WINDOW_HEIGHT - ball.height;
-    //         ball.down=0;
-    //     }else{
-    //         ball.y += 100 * delta_time;
-    //     }
-    // }
-    
-
-
 
     if(palette.left){
         if(palette.x - ball.width < 0){
