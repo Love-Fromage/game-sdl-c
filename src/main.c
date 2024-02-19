@@ -29,13 +29,16 @@ struct palette {
     int right;
 } palette;
 
-struct brick {
+struct Brick {
     float x;
     float y;
     float width;
     float height;
+    int health;
     int status;
-} brick;
+};
+
+struct Brick bricks[10]; // Array to hold the bricks
 
 int initialize_window(){
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -70,12 +73,10 @@ void moveBall(float *delta){
     if(ball.y - ball.height < 0){
         ball.up = FALSE;
         ball.bounce = TRUE;
-        // ball.left = !ball.left;
     } 
     if(ball.y + ball.height > WINDOW_HEIGHT){
         ball.up = TRUE;
         ball.bounce = FALSE;
-        // ball.left = !ball.left;
     }
     if(ball.x - ball.width < 0){
         ball.left = !ball.left;
@@ -91,9 +92,21 @@ void moveBall(float *delta){
        ball.y - ball.height <= palette.y + palette.height){
 
         ball.bounce = FALSE;
-        // ball.left = !ball.left;
 
     }
+    for(int i = 0; i < 11; i++){
+    if(ball.x + ball.width >= bricks[i].x &&
+       ball.x - ball.width <= bricks[i].x + bricks[i].width &&
+       ball.y + ball.height >= bricks[i].y &&
+       ball.y - ball.height <= bricks[i].y + bricks[i].height){
+
+        ball.bounce = TRUE;
+        bricks[i].status = FALSE;
+
+    }
+
+    }
+    
     if(ball.up && !ball.bounce){
         ball.y -= 100 * (*delta);
     } else {
@@ -106,14 +119,6 @@ void moveBall(float *delta){
         ball.x += 100 * (*delta);
     }
 }
-// void checkBallDirection(){
-
-//     if(ball.y - ball.height < 0){
-//         ball.up = FALSE;
-//         ball.down = TRUE;
-//         return;
-//     } 
-// }
 
 void doKeyDown(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
@@ -194,6 +199,17 @@ void setup(){
     palette.x = WINDOW_WIDTH/2 - palette.width/2;
     palette.y = WINDOW_HEIGHT-100;
     palette.height = 15;
+
+    for(int i = 0; i < 10; i++){
+        bricks[i].x = i * (20 + 40); //bricks spaced 20 units apart
+        bricks[i].y = 100; // All bricks at y = 100
+        bricks[i].width = 40; // brick with of 40
+        bricks[i].height = 20;
+        bricks[i].health = 1; // all bricks have 1 health
+        bricks[i].status = TRUE; // brick is initially visible;
+    }
+
+    
 }
 
 void update(){
@@ -304,6 +320,23 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &ball_rect);
     SDL_RenderFillRect(renderer, &palette_rect);
+
+    SDL_SetRenderDrawColor(renderer, 255,0,0,255); // set the color to red for the bricks
+
+    for(int i = 0; i < 10; i++){
+        if(bricks[i].status){
+            SDL_Rect brick_rect = {
+                bricks[i].x+100,
+                bricks[i].y,
+                bricks[i].width,
+                bricks[i].height
+            };
+            SDL_RenderFillRect(renderer, &brick_rect);
+        }
+    }
+
+
+    
 
     SDL_RenderPresent(renderer);
 }
