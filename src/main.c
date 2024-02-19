@@ -19,6 +19,7 @@ struct ball {
     int right;
     int released;
     int bounce;
+    float speed;
 } ball;
 
 struct palette {
@@ -40,6 +41,7 @@ struct Brick {
 };
 
 struct Brick bricks[10]; // Array to hold the bricks
+struct Brick bricks2nd[10]; // Array to hold the bricks
 
 int initialize_window(){
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -118,37 +120,49 @@ void moveBall(float *delta){
 
                     ball.bounce = TRUE;
                     bricks[i].health = 0;
+                    ball.speed +=10; // the ball will accelerate!
 
             }
         }
         if(bricks[i].health == 0){
             bricks[i].status = FALSE;
         }
+        if(bricks2nd[i].status){
+
+            if(ball.x + ball.width >= bricks2nd[i].x &&
+                ball.x - ball.width <= bricks2nd[i].x + bricks2nd[i].width &&
+                ball.y + ball.height >= bricks2nd[i].y &&
+                ball.y - ball.height <= bricks2nd[i].y + bricks2nd[i].height){
+
+                    ball.bounce = TRUE;
+                    bricks2nd[i].health = 0;
+                    ball.speed +=10; // the ball will accelerate!
+
+            }
+        }
+        if(bricks2nd[i].health == 0){
+            bricks2nd[i].status = FALSE;
+        }
 
     }
     
     
     if(ball.up && !ball.bounce){
-        ball.y -= 100 * (*delta);
+        ball.y -= ball.speed * (*delta);
     } else {
-        ball.y += 100 * (*delta);
+        ball.y += ball.speed * (*delta);
     }
     if(ball.left){
-        ball.x -= 100 * (*delta);
+        ball.x -= ball.speed * (*delta);
     }
     if(!ball.left){
-        ball.x += 100 * (*delta);
+        ball.x += ball.speed * (*delta);
     }
 }
 
 void doKeyDown(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
-        // if(event->keysym.scancode == SDL_SCANCODE_UP){
-        //     ball.up = 1;
-        // }
-        // if(event->keysym.scancode == SDL_SCANCODE_DOWN){
-        //     ball.down = 1;
-        // }
+
         if(event->keysym.scancode == SDL_SCANCODE_LEFT){
             palette.left = 1;
         }
@@ -164,12 +178,7 @@ void doKeyDown(SDL_KeyboardEvent *event){
 
 void doKeyUp(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
-        // if(event->keysym.scancode == SDL_SCANCODE_UP){
-        //     ball.up = 0;
-        // }
-        // if(event->keysym.scancode == SDL_SCANCODE_DOWN){
-        //     ball.down = 0;
-        // }
+        
         if(event->keysym.scancode == SDL_SCANCODE_LEFT){
             palette.left = 0;
         }
@@ -215,6 +224,7 @@ void setup(){
     ball.height = 15;
     ball.released = FALSE;
     ball.bounce = FALSE;
+    ball.speed = 100;
 
     palette.width = 100;
     palette.x = WINDOW_WIDTH/2 - palette.width/2;
@@ -223,11 +233,17 @@ void setup(){
 
     for(int i = 0; i < 10; i++){
         bricks[i].x = i * (20 + 40)+100; //bricks spaced 20 units apart
-        bricks[i].y = 100;
+        bricks[i].y = 16;
         bricks[i].width = 40; // brick with of 40
         bricks[i].height = 20;
         bricks[i].health = 1; // all bricks have 1 health
         bricks[i].status = TRUE; // brick is initially visible;
+        bricks2nd[i].x = i * (20 + 40)+100; //bricks spaced 20 units apart
+        bricks2nd[i].y = 55;
+        bricks2nd[i].width = 40; // brick with of 40
+        bricks2nd[i].height = 20;
+        bricks2nd[i].health = 1; // all bricks have 1 health
+        bricks2nd[i].status = TRUE; // brick is initially visible;
     }
 
     
@@ -351,6 +367,19 @@ void render(){
                 bricks[i].y,
                 bricks[i].width,
                 bricks[i].height
+            };
+            SDL_RenderFillRect(renderer, &brick_rect);
+        }
+    }
+    SDL_SetRenderDrawColor(renderer, 0,255,0,255); // set the color to green for the bricks
+
+    for(int i = 0; i < 10; i++){
+        if(bricks2nd[i].status){
+            SDL_Rect brick_rect = {
+                bricks2nd[i].x,
+                bricks2nd[i].y,
+                bricks2nd[i].width,
+                bricks2nd[i].height
             };
             SDL_RenderFillRect(renderer, &brick_rect);
         }
