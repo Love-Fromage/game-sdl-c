@@ -69,7 +69,7 @@ int initialize_window(){
 }
 
 void moveBall(float *delta){
-    // TODO: make the ball move in 45deg angles and stuff
+
     if(ball.y - ball.height < 0){
         ball.up = FALSE;
         ball.bounce = TRUE;
