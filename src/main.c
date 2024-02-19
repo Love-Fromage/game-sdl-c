@@ -18,6 +18,23 @@ struct ball {
     int right;
 } ball;
 
+struct palette {
+    float x;
+    float y;
+    float width;
+    float height;
+    int left;
+    int right;
+} palette;
+
+struct brick {
+    float x;
+    float y;
+    float width;
+    float height;
+    int status;
+} brick;
+
 int initialize_window(){
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "Error initializing SDL.\n");
@@ -112,6 +129,11 @@ void setup(){
     ball.y = 20;
     ball.width = 15;
     ball.height = 15;
+
+    palette.x = WINDOW_WIDTH/2;
+    palette.y = WINDOW_HEIGHT-100;
+    palette.width = 100;
+    palette.height = 15;
 }
 
 void update(){
@@ -182,16 +204,16 @@ void render(){
         0,
         0,
         WINDOW_WIDTH,
-        20,
+        12,
     };
     SDL_RenderFillRect(renderer, &top_wall);
 
     // Bootom wall
     SDL_Rect bottom_wall = {
         0,
-        WINDOW_HEIGHT-20,
+        WINDOW_HEIGHT-12,
         WINDOW_WIDTH,
-        20
+        12
     };
     SDL_RenderFillRect(renderer, &bottom_wall);
 
@@ -199,7 +221,7 @@ void render(){
     SDL_Rect left_wall = {
         0,
         0,
-        20,
+        12,
         WINDOW_HEIGHT
     };
     SDL_RenderFillRect(renderer, &left_wall);
@@ -207,14 +229,21 @@ void render(){
 
     // Right wall 
     SDL_Rect right_wall = {
-        WINDOW_WIDTH - 20,
+        WINDOW_WIDTH - 12,
         0,
-        20,
+        12,
         WINDOW_HEIGHT
     };
     SDL_RenderFillRect(renderer, &right_wall);
 
 
+    //Draw a palette
+    SDL_Rect palette_rect= {
+        palette.x,
+        palette.y,
+        palette.width,
+        palette.height
+    };
     // Draw a rectangle
     SDL_Rect ball_rect = {
         ball.x,
@@ -224,6 +253,7 @@ void render(){
     };
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &ball_rect);
+    SDL_RenderFillRect(renderer, &palette_rect);
 
     SDL_RenderPresent(renderer);
 }
