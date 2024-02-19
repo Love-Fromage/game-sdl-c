@@ -16,6 +16,7 @@ struct ball {
     int down;
     int left;
     int right;
+    int released;
 } ball;
 
 struct palette {
@@ -129,10 +130,11 @@ void setup(){
     ball.y = 20;
     ball.width = 15;
     ball.height = 15;
+    ball.released = FALSE;
 
-    palette.x = WINDOW_WIDTH/2;
-    palette.y = WINDOW_HEIGHT-100;
     palette.width = 100;
+    palette.x = WINDOW_WIDTH/2 - palette.width/2;
+    palette.y = WINDOW_HEIGHT-100;
     palette.height = 15;
 }
 
@@ -174,6 +176,11 @@ void update(){
     //         ball.y += 100 * delta_time;
     //     }
     // }
+    
+    // Glue the ball to the palette if the release properties
+
+
+
     if(palette.left){
         if(palette.x - ball.width < 0){
             palette.x = ball.width;
@@ -189,6 +196,10 @@ void update(){
         }else{
             palette.x += 350 * delta_time;
         }
+    }
+    if(!ball.released){
+        ball.x = palette.x + palette.width/2 - ball.width/2;
+        ball.y = palette.y - ball.height;
     }
 }
 
