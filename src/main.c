@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "./constants.h"
 
 int game_is_running = FALSE;
@@ -45,6 +46,7 @@ int initialize_window(){
         fprintf(stderr, "Error initializing SDL.\n");
         return FALSE;
     }
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
      window = SDL_CreateWindow(
         "TEST",
@@ -54,6 +56,7 @@ int initialize_window(){
         WINDOW_HEIGHT,
         SDL_WINDOW_MINIMIZED
      );
+     
 
      if(!window){
         fprintf(stderr, "Error creating SDL Window.\n");
@@ -66,6 +69,17 @@ int initialize_window(){
         return FALSE;
     }
     return TRUE;
+}
+Mix_Music* music;
+
+void loadSoundEffect(){
+    music = Mix_LoadMUS("./sounds/8bit-music-for-game-68698.mp3");
+    if(!music){
+        printf("failed to load music! SDL_mixer Error : %s\n", Mix_GetError());
+    }
+}
+void playMusic(){
+    Mix_PlayMusic(music, -1);
 }
 
 void moveBall(float *delta){
@@ -349,6 +363,8 @@ void render(){
 }
 
 void destroy_window(){
+     Mix_FreeMusic(music);
+     Mix_CloseAudio();
      SDL_DestroyRenderer(renderer); 
      SDL_DestroyWindow(window);
      SDL_Quit();
