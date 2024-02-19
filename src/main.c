@@ -71,6 +71,12 @@ void moveBall(float *delta){
         ball.up = FALSE;
         ball.bounce = TRUE;
     } 
+    if(ball.y + ball.height > WINDOW_HEIGHT){
+        // ball.y = WINDOW_HEIGHT - ball.height;
+        // ball.down=0; 
+        ball.up = TRUE;
+        ball.bounce = FALSE;
+            }
     // Check if the ball is within the bounds of the palette
     if(ball.x + ball.width >= palette.x &&
        ball.x - ball.width <= palette.x + palette.width &&
