@@ -66,7 +66,16 @@ int initialize_window(){
 
 void moveBall(float *delta){
     // TODO: make the ball move in 45deg angles and stuff
-    ball.y -= 200 * (*delta);
+    if(ball.y - ball.height < 0){
+        ball.up = FALSE;
+        ball.down = TRUE;
+    } 
+    if(ball.up){
+        ball.y -= 200 * (*delta);
+    }
+    if(ball.down){
+        ball.y += 200 * (*delta);
+    }
 }
 
 void doKeyDown(SDL_KeyboardEvent *event){
@@ -213,6 +222,7 @@ void update(){
         ball.y = palette.y - ball.height;
     } else {
         moveBall(&delta_time);
+        ball.up = TRUE;
     }
 }
 
