@@ -17,6 +17,7 @@ struct ball {
     int left;
     int right;
     int released;
+    int bounce;
 } ball;
 
 struct palette {
@@ -68,15 +69,22 @@ void moveBall(float *delta){
     // TODO: make the ball move in 45deg angles and stuff
     if(ball.y - ball.height < 0){
         ball.up = FALSE;
-        ball.down = TRUE;
+        ball.bounce = TRUE;
     } 
-    if(ball.up){
+    if(ball.up && !ball.bounce){
         ball.y -= 200 * (*delta);
-    }
-    if(ball.down){
+    } else {
         ball.y += 200 * (*delta);
     }
 }
+// void checkBallDirection(){
+
+//     if(ball.y - ball.height < 0){
+//         ball.up = FALSE;
+//         ball.down = TRUE;
+//         return;
+//     } 
+// }
 
 void doKeyDown(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
@@ -150,6 +158,7 @@ void setup(){
     ball.width = 15;
     ball.height = 15;
     ball.released = FALSE;
+    ball.bounce = FALSE;
 
     palette.width = 100;
     palette.x = WINDOW_WIDTH/2 - palette.width/2;
