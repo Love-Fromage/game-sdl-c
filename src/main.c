@@ -64,34 +64,34 @@ int initialize_window(){
 }
 void doKeyDown(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
-        if(event->keysym.scancode == SDL_SCANCODE_UP){
-            ball.up = 1;
-        }
-        if(event->keysym.scancode == SDL_SCANCODE_DOWN){
-            ball.down = 1;
-        }
+        // if(event->keysym.scancode == SDL_SCANCODE_UP){
+        //     ball.up = 1;
+        // }
+        // if(event->keysym.scancode == SDL_SCANCODE_DOWN){
+        //     ball.down = 1;
+        // }
         if(event->keysym.scancode == SDL_SCANCODE_LEFT){
-            ball.left = 1;
+            palette.left = 1;
         }
         if(event->keysym.scancode == SDL_SCANCODE_RIGHT){
-            ball.right = 1;
+            palette.right = 1;
         }
     }
 }
 
 void doKeyUp(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
-        if(event->keysym.scancode == SDL_SCANCODE_UP){
-            ball.up = 0;
-        }
-        if(event->keysym.scancode == SDL_SCANCODE_DOWN){
-            ball.down = 0;
-        }
+        // if(event->keysym.scancode == SDL_SCANCODE_UP){
+        //     ball.up = 0;
+        // }
+        // if(event->keysym.scancode == SDL_SCANCODE_DOWN){
+        //     ball.down = 0;
+        // }
         if(event->keysym.scancode == SDL_SCANCODE_LEFT){
-            ball.left = 0;
+            palette.left = 0;
         }
         if(event->keysym.scancode == SDL_SCANCODE_RIGHT){
-            ball.right = 0;
+            palette.right = 0;
         }
     }
 }
@@ -158,36 +158,36 @@ void update(){
     // ball.x += 20 * delta_time;
     // ball.y += 30 * delta_time;
 
-    if(ball.up){
-        if(ball.y - ball.height < 0){
-            ball.y = ball.y;
-            ball.up=0;
+    // if(ball.up){
+    //     if(ball.y - ball.height < 0){
+    //         ball.y = ball.y;
+    //         ball.up=0;
+    //     }else{
+    //         ball.y -= 100 * delta_time;
+    //     }
+    // }
+    // if(ball.down){
+    //     if(ball.y + ball.height > WINDOW_HEIGHT){
+    //         ball.y = WINDOW_HEIGHT - ball.height;
+    //         ball.down=0;
+    //     }else{
+    //         ball.y += 100 * delta_time;
+    //     }
+    // }
+    if(palette.left){
+        if(palette.x - ball.width < 0){
+            palette.x = ball.width;
+            palette.left =0;
         }else{
-            ball.y -= 100 * delta_time;
+            palette.x -= 350 * delta_time;
         }
     }
-    if(ball.down){
-        if(ball.y + ball.height > WINDOW_HEIGHT){
-            ball.y = WINDOW_HEIGHT - ball.height;
-            ball.down=0;
+    if(palette.right){
+        if(palette.x + palette.width > WINDOW_WIDTH){
+            palette.x = WINDOW_WIDTH - palette.width;
+            palette.right=0;
         }else{
-            ball.y += 100 * delta_time;
-        }
-    }
-    if(ball.left){
-        if(ball.x - ball.width < 0){
-            ball.x = ball.width;
-            ball.left =0;
-        }else{
-            ball.x -= 100 * delta_time;
-        }
-    }
-    if(ball.right){
-        if(ball.x + ball.width > WINDOW_WIDTH){
-            ball.x = WINDOW_WIDTH - ball.width;
-            ball.right=0;
-        }else{
-            ball.x += 100 * delta_time;
+            palette.x += 350 * delta_time;
         }
     }
 }
