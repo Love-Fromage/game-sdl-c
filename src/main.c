@@ -66,7 +66,7 @@ int initialize_window(){
 
 void moveBall(float *delta){
     // TODO: make the ball move in 45deg angles and stuff
-    ball.y -= 100 * (*delta);
+    ball.y -= 200 * (*delta);
 }
 
 void doKeyDown(SDL_KeyboardEvent *event){
