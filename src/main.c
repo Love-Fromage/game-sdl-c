@@ -70,13 +70,20 @@ void moveBall(float *delta){
     if(ball.y - ball.height < 0){
         ball.up = FALSE;
         ball.bounce = TRUE;
+        // ball.left = !ball.left;
     } 
     if(ball.y + ball.height > WINDOW_HEIGHT){
-        // ball.y = WINDOW_HEIGHT - ball.height;
-        // ball.down=0; 
         ball.up = TRUE;
         ball.bounce = FALSE;
-            }
+        // ball.left = !ball.left;
+    }
+    if(ball.x - ball.width < 0){
+        ball.left = !ball.left;
+    }
+    if(ball.x + ball.width*2 > WINDOW_WIDTH){
+        ball.left = !ball.left;
+    }
+    
     // Check if the ball is within the bounds of the palette
     if(ball.x + ball.width >= palette.x &&
        ball.x - ball.width <= palette.x + palette.width &&
@@ -84,12 +91,19 @@ void moveBall(float *delta){
        ball.y - ball.height <= palette.y + palette.height){
 
         ball.bounce = FALSE;
+        // ball.left = !ball.left;
 
     }
     if(ball.up && !ball.bounce){
-        ball.y -= 200 * (*delta);
+        ball.y -= 100 * (*delta);
     } else {
-        ball.y += 200 * (*delta);
+        ball.y += 100 * (*delta);
+    }
+    if(ball.left){
+        ball.x -= 100 * (*delta);
+    }
+    if(!ball.left){
+        ball.x += 100 * (*delta);
     }
 }
 // void checkBallDirection(){
@@ -170,6 +184,7 @@ void process_input(){
 void setup(){
     ball.x = 20;
     ball.y = 20;
+    ball.left = TRUE;
     ball.width = 15;
     ball.height = 15;
     ball.released = FALSE;
