@@ -63,6 +63,12 @@ int initialize_window(){
     }
     return TRUE;
 }
+
+void moveBall(float *delta){
+    // TODO: make the ball move in 45deg angles and stuff
+    ball.y -= 100 * (*delta);
+}
+
 void doKeyDown(SDL_KeyboardEvent *event){
     if(event->repeat == 0){
         // if(event->keysym.scancode == SDL_SCANCODE_UP){
@@ -76,6 +82,10 @@ void doKeyDown(SDL_KeyboardEvent *event){
         }
         if(event->keysym.scancode == SDL_SCANCODE_RIGHT){
             palette.right = 1;
+        }
+        
+        if(event->keysym.scancode == SDL_SCANCODE_SPACE){
+            ball.released = TRUE;
         }
     }
 }
@@ -177,7 +187,6 @@ void update(){
     //     }
     // }
     
-    // Glue the ball to the palette if the release properties
 
 
 
@@ -197,9 +206,13 @@ void update(){
             palette.x += 350 * delta_time;
         }
     }
+
+    // Glue the ball to the palette if the release properties
     if(!ball.released){
         ball.x = palette.x + palette.width/2 - ball.width/2;
         ball.y = palette.y - ball.height;
+    } else {
+        moveBall(&delta_time);
     }
 }
 
